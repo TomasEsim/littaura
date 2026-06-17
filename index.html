@@ -42,7 +42,7 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
           +370 686 70 502
         </a>
-        <a href="#kainos" class="btn btn-primary">Užsakyti kurą</a>
+        <a href="#uzsakymas" class="btn btn-primary">Užsakyti kurą</a>
         <button class="nav-toggle" id="navToggle" aria-label="Meniu">
           <span></span><span></span><span></span>
         </button>
@@ -82,7 +82,7 @@
           <a href="#kainos" class="btn btn-primary">Peržiūrėti kainas
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </a>
-          <a href="#kontaktai" class="btn btn-ghost">Susisiekti</a>
+          <a href="#uzsakymas" class="btn btn-ghost">Susisiekti</a>
         </div>
       </div>
 
@@ -157,7 +157,7 @@
           <strong id="sumTotal">5 850,00 €</strong>
         </div>
 
-        <a href="#kontaktai" class="btn btn-primary btn-block">Tęsti užsakymą
+        <a href="#uzsakymas" class="btn btn-primary btn-block" id="continueOrder">Tęsti užsakymą
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
         <p class="secure-note">
@@ -226,13 +226,87 @@
     </div>
   </section>
 
+  <!-- ORDER / CONTACT FORM -->
+  <section class="section" id="uzsakymas">
+    <div class="container form-wrap">
+      <div class="form-intro">
+        <h2 class="section-title" style="text-align:left;margin-bottom:14px;">Pateikite užsakymą</h2>
+        <p class="form-lead">Užpildykite formą — susisieksime su jumis ir pateiksime geriausią pasiūlymą. Pasirinktas kuras ir kiekis užpildomi automatiškai.</p>
+      </div>
+
+      <form class="order-form" id="orderForm" action="https://api.web3forms.com/submit" method="POST">
+        <!-- 1. Gaukite nemokamą raktą: https://web3forms.com -> įveskite el. paštą -> nukopijuokite access key.
+             2. Įklijuokite jį čia vietoj YOUR_ACCESS_KEY_HERE. -->
+        <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
+        <input type="hidden" name="subject" value="Naujas užsakymas iš Littaura svetainės" />
+        <input type="hidden" name="from_name" value="Littaura svetainė" />
+        <!-- Honeypot prieš šlamštą -->
+        <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" />
+
+        <div class="field-row">
+          <div class="field">
+            <label for="f-name">Vardas / Įmonė *</label>
+            <input id="f-name" name="Vardas / Įmonė" type="text" required placeholder="Jūsų vardas arba įmonė" />
+          </div>
+          <div class="field">
+            <label for="f-phone">Telefonas *</label>
+            <input id="f-phone" name="Telefonas" type="tel" required placeholder="+370 6XX XXXXX" />
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="f-email">El. paštas *</label>
+            <input id="f-email" name="El. paštas" type="email" required placeholder="vardas@imone.lt" />
+          </div>
+          <div class="field">
+            <label for="f-city">Pristatymo miestas / adresas</label>
+            <input id="f-city" name="Pristatymo adresas" type="text" placeholder="Miestas, gatvė" />
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="f-fuel">Kuro rūšis</label>
+            <select id="f-fuel" name="Kuro rūšis">
+              <option value="Dyzelinas kuras (DK)">Dyzelinas kuras (DK)</option>
+              <option value="Dyzelino kuras Žiemos (DKK)">Dyzelino kuras Žiemos (DKK)</option>
+              <option value="Dyzelino kuras vasaros (DKU)">Dyzelino kuras vasaros (DKU)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-qty">Kiekis (L)</label>
+            <input id="f-qty" name="Kiekis (L)" type="number" min="100" step="50" placeholder="3000" />
+          </div>
+        </div>
+
+        <input type="hidden" name="Apytikslė suma" id="f-total" value="" />
+
+        <div class="field">
+          <label for="f-msg">Žinutė</label>
+          <textarea id="f-msg" name="Žinutė" rows="4" placeholder="Papildoma informacija, pageidaujamas pristatymo laikas ir pan."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block" id="orderSubmit">Siųsti užsakymą
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </button>
+
+        <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+        <p class="secure-note">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Saugus užsakymas — jūsų duomenys naudojami tik užsakymui apdoroti
+        </p>
+      </form>
+    </div>
+  </section>
+
   <!-- CTA -->
   <section class="cta" id="kontaktai">
     <div class="container cta-grid">
       <div class="cta-copy">
         <h2>Reikia kuro didesniam kiekiui<br />ar turite klausimų?</h2>
         <p>Susisiekite su mumis – pateiksime geriausią pasiūlymą Jūsų verslui.</p>
-        <a href="tel:+37068670502" class="btn btn-white">Susisiekti</a>
+        <a href="#uzsakymas" class="btn btn-white">Susisiekti</a>
       </div>
       <div class="cta-contacts">
         <a href="tel:+37068670502" class="cta-contact">

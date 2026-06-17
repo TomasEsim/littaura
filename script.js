@@ -22,7 +22,19 @@ const els = {
   sumQty:    document.getElementById('sumQty'),
   sumUnit:   document.getElementById('sumUnit'),
   sumTotal:  document.getElementById('sumTotal'),
+  // order form
+  formFuel:  document.getElementById('f-fuel'),
+  formQty:   document.getElementById('f-qty'),
+  formTotal: document.getElementById('f-total'),
 };
+
+// Keep the order form in sync with the current pricing selection.
+function syncForm() {
+  const u = unitPrice(state.qty);
+  if (els.formFuel) els.formFuel.value = FUELS[state.fuel].name;
+  if (els.formQty)  els.formQty.value = state.qty;
+  if (els.formTotal) els.formTotal.value = fmtEUR(state.qty * u);
+}
 
 function renderRows() {
   els.rows.innerHTML = QUANTITIES.map((qty) => {
@@ -59,6 +71,7 @@ function renderSummary() {
   els.sumUnit.textContent = u.toFixed(2) + ' €';
   els.sumTotal.textContent = fmtEUR(state.qty * u);
   els.sumQty.innerHTML = `${state.qty} L <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>`;
+  syncForm();
 }
 
 // Fuel-type switching
@@ -69,6 +82,53 @@ document.querySelectorAll('.fuel-type').forEach((btn) => {
     state.fuel = btn.dataset.fuel;
     renderSummary();
   });
+});
+
+// Order form submission (Web3Forms — works on any static host).
+const orderForm = document.getElementById('orderForm');
+const formStatus = document.getElementById('formStatus');
+const orderSubmit = document.getElementById('orderSubmit');
+
+function setStatus(msg, type) {
+  if (!formStatus) return;
+  formStatus.textContent = msg;
+  formStatus.className = 'form-status show ' + type;
+}
+
+orderForm?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const key = orderForm.querySelector('[name="access_key"]').value;
+  if (!key || key === 'YOUR_ACCESS_KEY_HERE') {
+    setStatus('Forma dar nesukonfigūruota: įklijuokite Web3Forms access raktą į index.html.', 'err');
+    return;
+  }
+
+  const original = orderSubmit.innerHTML;
+  orderSubmit.disabled = true;
+  orderSubmit.textContent = 'Siunčiama…';
+  setStatus('', '');
+
+  try {
+    const res = await fetch(orderForm.action, {
+      method: 'POST',
+      headers: { Accept: 'application/json' },
+      body: new FormData(orderForm),
+    });
+    const data = await res.json();
+    if (res.ok && data.success) {
+      orderForm.reset();
+      syncForm(); // restore fuel/qty defaults after reset
+      setStatus('Ačiū! Jūsų užsakymas gautas — netrukus su jumis susisieksime.', 'ok');
+    } else {
+      setStatus('Nepavyko išsiųsti. Pabandykite dar kartą arba skambinkite +370 686 70 502.', 'err');
+    }
+  } catch (err) {
+    setStatus('Tinklo klaida. Pabandykite dar kartą arba skambinkite +370 686 70 502.', 'err');
+  } finally {
+    orderSubmit.disabled = false;
+    orderSubmit.innerHTML = original;
+  }
 });
 
 // Mobile nav

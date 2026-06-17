@@ -289,6 +289,45 @@ a { text-decoration: none; color: inherit; }
   letter-spacing: 1px;
 }
 
+/* ---------- Order form ---------- */
+.form-wrap { display: grid; grid-template-columns: .9fr 1.1fr; gap: 48px; align-items: start; }
+.form-lead { color: var(--muted); font-size: 15px; max-width: 360px; }
+.order-form {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 30px;
+  box-shadow: var(--shadow);
+}
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.field { margin-bottom: 16px; display: flex; flex-direction: column; }
+.field label { font-size: 13px; font-weight: 600; color: #404a5e; margin-bottom: 7px; }
+.field input, .field select, .field textarea {
+  font-family: inherit;
+  font-size: 14.5px;
+  color: var(--text);
+  padding: 12px 13px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg-soft);
+  transition: border-color .15s, background .15s, box-shadow .15s;
+}
+.field input::placeholder, .field textarea::placeholder { color: var(--muted-2); }
+.field input:focus, .field select:focus, .field textarea:focus {
+  outline: none;
+  border-color: var(--indigo);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, .12);
+}
+.field textarea { resize: vertical; min-height: 96px; }
+.order-form .btn-block { margin-top: 6px; }
+.hp { position: absolute; left: -9999px; opacity: 0; pointer-events: none; }
+.form-status { font-size: 13.5px; margin-top: 14px; text-align: center; display: none; }
+.form-status.show { display: block; }
+.form-status.ok { color: #16a34a; }
+.form-status.err { color: #dc2626; }
+.order-form .secure-note { margin-top: 12px; }
+
 /* ---------- CTA ---------- */
 .cta { background: linear-gradient(115deg, #6f63f0 0%, #7b6ef2 100%); color: #fff; padding: 56px 0; }
 .cta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
@@ -323,6 +362,7 @@ a { text-decoration: none; color: inherit; }
   .step:not(:last-child)::after { display: none; }
   .cta-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
+  .form-wrap { grid-template-columns: 1fr; gap: 24px; }
 }
 
 @media (max-width: 760px) {
@@ -342,4 +382,6 @@ a { text-decoration: none; color: inherit; }
   .price-head { flex-direction: column; gap: 12px; }
   .footer-bottom { flex-direction: column; gap: 8px; }
   .section-title { font-size: 24px; }
+  .field-row { grid-template-columns: 1fr; gap: 0; }
+  .order-form { padding: 22px; }
 }

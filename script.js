@@ -93,13 +93,29 @@ document.querySelectorAll('.fuel-type').forEach((btn) => {
   });
 });
 
-// Order modal — opens from any .order-trigger button, prefilled with the current selection.
+// Order modal — opens from any .order-trigger button.
 const orderModal = document.getElementById('orderModal');
 const modalClose = document.getElementById('modalClose');
+const modalSummary = document.getElementById('modalSummary');
+
+// Reset the fuel/quantity fields to a blank state (used when not coming from "Tęsti užsakymą").
+function clearOrderFields() {
+  if (els.formFuel) els.formFuel.selectedIndex = 0;
+  if (els.formQty)  els.formQty.value = '';
+  if (els.formTotal) els.formTotal.value = '';
+}
 
 function openModal(e) {
   if (e) e.preventDefault();
-  syncForm();            // prefill fuel / quantity / total from current selection
+  // Only prefill + show the order summary when opened via "Tęsti užsakymą".
+  const fromContinue = e && e.currentTarget.hasAttribute('data-prefill');
+  if (fromContinue) {
+    syncForm();                                  // fill fuel / quantity / total + summary
+    if (modalSummary) modalSummary.style.display = '';
+  } else {
+    clearOrderFields();
+    if (modalSummary) modalSummary.style.display = 'none';
+  }
   orderModal.classList.add('open');
   orderModal.setAttribute('aria-hidden', 'false');
   document.body.classList.add('modal-open');

@@ -8,7 +8,7 @@
    4. Įrašykite ID ir lapo (tab) pavadinimą žemiau.
    Kol ID = 'YOUR_SHEET_ID', naudojamos numatytosios kainos.
    ============================================================ */
-const SHEET_ID = 'YOUR_SHEET_ID';
+const SHEET_ID = '1008gSHJGW9nnaLq3XINHqQwCJQJxMeo7LqFjHLM8uuU';
 const SHEET_NAME = ''; // tuščia = pirmas lapas (tab). Jei lapas pervadintas, įrašykite jo pavadinimą.
 
 // Kuras pažymimas „Populiariausias", kai kiekis lygus šiam:

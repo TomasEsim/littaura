@@ -9,18 +9,34 @@
    Kol ID = 'YOUR_SHEET_ID', naudojamos numatytosios kainos.
    ============================================================ */
 const SHEET_ID = 'YOUR_SHEET_ID';
-const SHEET_NAME = 'Kainos';
+const SHEET_NAME = ''; // tuščia = pirmas lapas (tab). Jei lapas pervadintas, įrašykite jo pavadinimą.
 
-const FUEL_ORDER = ['DK', 'DKK', 'DKU'];
+// Kuras pažymimas „Populiariausias", kai kiekis lygus šiam:
+const POPULAR_QTY = 3000;
 
-// Numatytosios (atsarginės) kainos — naudojamos jei lentelės įkelti nepavyksta.
-const FALLBACK_QTYS = [1000, 1250, 1500, 1750, 2000, 2500, 3000, 4000, 5000];
-const fallbackTiers = () =>
-  FALLBACK_QTYS.map((q) => ({ qty: q, price: q >= 3000 ? 1.95 : 1.96, popular: q === 3000 }));
+// Lentelės išdėstymas (wide): kiekvienas kuras turi 3 stulpelius –
+// Kuro kiekis | Kaina 1L | Viso Suma. Nurodome 0-pagrįstus stulpelių indeksus
+// (A=0, B=1, C=2, D=3, ...). „Viso Suma" stulpelis ignoruojamas – sumą skaičiuojame patys.
+const SHEET_GROUPS = [
+  { code: 'DK',  name: 'Dyzelinas kuras',          qtyCol: 0, priceCol: 1 }, // A, B
+  { code: 'DKK', name: 'Dyzelinas kuras Šildymui', qtyCol: 3, priceCol: 4 }, // D, E
+  { code: 'DKU', name: 'Dyzelinas kuras Ūkinikam', qtyCol: 6, priceCol: 7 }, // G, H
+];
+
+const FUEL_ORDER = SHEET_GROUPS.map((g) => g.code);
+
+// Numatytosios (atsarginės) kainos — atitinka lentelės kainas, naudojamos jei
+// lentelės įkelti nepavyksta. Kaina mažėja po 0,01 €/L nuo 2500 L.
+const FALLBACK_QTYS = [500, 1000, 1250, 1500, 1750, 2000, 2500, 3000, 4000, 5000];
+const tiersForBase = (base) =>
+  FALLBACK_QTYS.map((q) => {
+    const step = q === 2500 ? 0.01 : q === 3000 ? 0.02 : q === 4000 ? 0.03 : q === 5000 ? 0.04 : 0;
+    return { qty: q, price: Math.round((base - step) * 100) / 100, popular: q === POPULAR_QTY };
+  });
 const FALLBACK = {
-  DK:  { name: 'Dyzelinas kuras (DK)',         tiers: fallbackTiers() },
-  DKK: { name: 'Dyzelino kuras Žiemos (DKK)',  tiers: fallbackTiers() },
-  DKU: { name: 'Dyzelino kuras vasaros (DKU)', tiers: fallbackTiers() },
+  DK:  { name: 'Dyzelinas kuras',          tiers: tiersForBase(1.96) },
+  DKK: { name: 'Dyzelinas kuras Šildymui', tiers: tiersForBase(1.47) },
+  DKU: { name: 'Dyzelinas kuras Ūkinikam', tiers: tiersForBase(1.39) },
 };
 
 // Gyvas katalogas — pradeda nuo numatytojo, pakeičiamas lentelės duomenimis.
@@ -267,31 +283,24 @@ function parseCSV(text) {
   return rows.filter((r) => r.some((x) => x.trim() !== ''));
 }
 
-// Turn the sheet rows into a { CODE: {name, tiers[]} } catalogue.
+const toNum = (v) => parseFloat(String(v ?? '').replace(',', '.').replace(/[^\d.]/g, ''));
+
+// Turn the wide sheet (3 side-by-side fuel blocks) into a { CODE: {name, tiers[]} }
+// catalogue. Reads each block by column position; data rows are any row whose
+// "kiekis" cell is a positive number, so title/sub-header rows are skipped.
 function catalogueFromCSV(csv) {
   const rows = parseCSV(csv);
-  if (rows.length < 2) return {};
-  const header = rows[0].map((h) => h.trim().toLowerCase());
-  const col = (...names) => header.findIndex((h) => names.some((n) => h.startsWith(n)));
-  const ci = col('kodas', 'code', 'kuras');
-  const ni = col('pavadinimas', 'name');
-  const qi = col('kiekis', 'quantity', 'qty');
-  const pi = col('kaina', 'price');
-  const poi = col('populiar', 'popular');
-  if (ci < 0 || qi < 0 || pi < 0) return {};
-
   const out = {};
-  for (let i = 1; i < rows.length; i++) {
-    const r = rows[i];
-    const code = (r[ci] || '').trim().toUpperCase();
-    if (!code) continue;
-    const qty = parseInt(String(r[qi]).replace(/[^\d]/g, ''), 10);
-    const price = parseFloat(String(r[pi]).replace(',', '.').replace(/[^\d.]/g, ''));
-    if (!qty || !(price > 0)) continue;
-    const popular = poi >= 0 && /^(x|taip|yes|y|1|true)$/i.test((r[poi] || '').trim());
-    if (!out[code]) out[code] = { name: ni >= 0 && r[ni]?.trim() ? r[ni].trim() : code, tiers: [] };
-    else if (ni >= 0 && r[ni]?.trim()) out[code].name = r[ni].trim();
-    out[code].tiers.push({ qty, price, popular });
+  SHEET_GROUPS.forEach((g) => { out[g.code] = { name: g.name, tiers: [] }; });
+
+  for (const r of rows) {
+    SHEET_GROUPS.forEach((g) => {
+      const qty = parseInt(String(r[g.qtyCol] ?? '').replace(/[^\d]/g, ''), 10);
+      const price = toNum(r[g.priceCol]);
+      if (qty > 0 && price > 0) {
+        out[g.code].tiers.push({ qty, price, popular: qty === POPULAR_QTY });
+      }
+    });
   }
   Object.values(out).forEach((f) => f.tiers.sort((a, b) => a.qty - b.qty));
   return out;
@@ -300,8 +309,8 @@ function catalogueFromCSV(csv) {
 async function loadPrices() {
   if (!SHEET_ID || SHEET_ID === 'YOUR_SHEET_ID') return; // not configured → keep fallback
   try {
-    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq` +
-                `?tqx=out:csv&sheet=${encodeURIComponent(SHEET_NAME)}`;
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv` +
+                (SHEET_NAME ? `&sheet=${encodeURIComponent(SHEET_NAME)}` : '');
     const res = await fetch(url, { cache: 'no-store' });
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const cat = catalogueFromCSV(await res.text());

@@ -423,19 +423,47 @@ body.modal-open { overflow: hidden; }
   .nav.open { display: flex; }
   .nav-toggle { display: flex; }
   .header-phone { display: none; }
-  .hero-grid { grid-template-columns: 1fr; }
-  .hero-copy h1 { font-size: 36px; }
+  .hero { padding: 44px 0 54px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 30px; }
+  .hero-copy h1 { font-size: 34px; }
+  /* Let the feature badges wrap on small screens (they're forced to one line only on desktop). */
+  .hero-features { flex-wrap: wrap; gap: 16px 26px; margin: 24px 0 26px; }
   .hero-media { order: -1; }
-  .hero-media img { height: 220px; }
+  .hero-media img { height: 230px; }
 }
 
 @media (max-width: 560px) {
+  .container { padding: 0 16px; }
   .fuel-types { grid-template-columns: 1fr; }
   .cards-4, .steps, .footer-grid { grid-template-columns: 1fr; }
   .price-head { flex-direction: column; gap: 12px; }
   .footer-bottom { flex-direction: column; gap: 8px; }
-  .section-title { font-size: 24px; }
+  .section { padding: 48px 0; }
+  .section-title { font-size: 23px; margin-bottom: 30px; }
+  .hero-copy h1 { font-size: 30px; }
+  .hero-buttons { flex-wrap: wrap; }
+  .hero-buttons .btn { flex: 1 1 auto; }
+
+  /* Compact price table: drop the chevron column, tighten spacing, allow the badge to wrap. */
+  .price-table-head, .price-row { grid-template-columns: 1.2fr 1fr 1fr; gap: 6px; }
+  .price-table-head { padding: 12px 12px 8px; font-size: 11px; }
+  .price-rows { padding: 0 6px 6px; }
+  .price-row { padding: 12px 8px; }
+  .chev { display: none; }
+  .qty-cell { flex-wrap: wrap; gap: 8px; font-size: 14px; }
+  .badge-pop { margin-left: 0; }
+  .unit-cell { font-size: 12.5px; }
+  .total-cell { font-size: 13.5px; }
+  .price-card { padding: 4px; }
+  .price-head { padding: 16px 14px 14px; }
+
+  .summary-total strong { font-size: 26px; }
+
+  /* Form/modal */
   .field-row { grid-template-columns: 1fr; gap: 0; }
-  .modal { padding: 24px 20px; }
-  .modal-overlay { padding: 16px; align-items: flex-start; }
+  .modal { padding: 24px 18px; border-radius: 16px; }
+  .modal-overlay { padding: 12px; align-items: flex-start; }
+  .modal-title { font-size: 21px; }
+  /* 16px inputs stop iOS Safari from auto-zooming on focus. */
+  .field input, .field select, .field textarea { font-size: 16px; }
 }

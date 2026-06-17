@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=3" />
+  <link rel="stylesheet" href="styles.css?v=4" />
 </head>
 <body>
   <!-- HEADER -->
@@ -42,7 +42,7 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
           +370 686 70 502
         </a>
-        <a href="#uzsakymas" class="btn btn-primary">Užsakyti kurą</a>
+        <a href="#" class="btn btn-primary order-trigger">Užsakyti kurą</a>
         <button class="nav-toggle" id="navToggle" aria-label="Meniu">
           <span></span><span></span><span></span>
         </button>
@@ -82,7 +82,7 @@
           <a href="#kainos" class="btn btn-primary">Peržiūrėti kainas
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </a>
-          <a href="#uzsakymas" class="btn btn-ghost">Susisiekti</a>
+          <a href="#" class="btn btn-ghost order-trigger">Susisiekti</a>
         </div>
       </div>
 
@@ -157,7 +157,7 @@
           <strong id="sumTotal">5 850,00 €</strong>
         </div>
 
-        <a href="#uzsakymas" class="btn btn-primary btn-block" id="continueOrder">Tęsti užsakymą
+        <a href="#" class="btn btn-primary btn-block order-trigger" id="continueOrder">Tęsti užsakymą
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
         <p class="secure-note">
@@ -226,12 +226,20 @@
     </div>
   </section>
 
-  <!-- ORDER / CONTACT FORM -->
-  <section class="section" id="uzsakymas">
-    <div class="container form-wrap">
-      <div class="form-intro">
-        <h2 class="section-title" style="text-align:left;margin-bottom:14px;">Pateikite užsakymą</h2>
-        <p class="form-lead">Užpildykite formą — susisieksime su jumis ir pateiksime geriausią pasiūlymą. Pasirinktas kuras ir kiekis užpildomi automatiškai.</p>
+  <!-- ORDER MODAL -->
+  <div class="modal-overlay" id="orderModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" id="modalClose" aria-label="Uždaryti">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+
+      <h2 class="modal-title" id="modalTitle">Pateikite užsakymą</h2>
+      <p class="form-lead">Užpildykite formą — susisieksime su jumis ir pateiksime geriausią pasiūlymą.</p>
+
+      <div class="modal-summary" id="modalSummary">
+        <div class="ms-row"><span>Kuras</span><strong id="msFuel">Dyzelinas kuras (DK)</strong></div>
+        <div class="ms-row"><span>Kiekis</span><strong id="msQty">3000 L</strong></div>
+        <div class="ms-row ms-total"><span>Apytikslė suma</span><strong id="msTotal">5 850,00 €</strong></div>
       </div>
 
       <form class="order-form" id="orderForm" action="https://api.web3forms.com/submit" method="POST">
@@ -298,7 +306,7 @@
         </p>
       </form>
     </div>
-  </section>
+  </div>
 
   <!-- CTA -->
   <section class="cta" id="kontaktai">
@@ -306,7 +314,7 @@
       <div class="cta-copy">
         <h2>Reikia kuro didesniam kiekiui<br />ar turite klausimų?</h2>
         <p>Susisiekite su mumis – pateiksime geriausią pasiūlymą Jūsų verslui.</p>
-        <a href="#uzsakymas" class="btn btn-white">Susisiekti</a>
+        <a href="#" class="btn btn-white order-trigger">Susisiekti</a>
       </div>
       <div class="cta-contacts">
         <a href="tel:+37068670502" class="cta-contact">
@@ -367,6 +375,6 @@
     </div>
   </footer>
 
-  <script src="script.js?v=3"></script>
+  <script src="script.js?v=4"></script>
 </body>
 </html>

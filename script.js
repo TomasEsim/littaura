@@ -26,14 +26,23 @@ const els = {
   formFuel:  document.getElementById('f-fuel'),
   formQty:   document.getElementById('f-qty'),
   formTotal: document.getElementById('f-total'),
+  // modal summary
+  msFuel:    document.getElementById('msFuel'),
+  msQty:     document.getElementById('msQty'),
+  msTotal:   document.getElementById('msTotal'),
 };
 
-// Keep the order form in sync with the current pricing selection.
+// Keep the order form + modal summary in sync with the current pricing selection.
 function syncForm() {
   const u = unitPrice(state.qty);
-  if (els.formFuel) els.formFuel.value = FUELS[state.fuel].name;
+  const name = FUELS[state.fuel].name;
+  const total = fmtEUR(state.qty * u);
+  if (els.formFuel) els.formFuel.value = name;
   if (els.formQty)  els.formQty.value = state.qty;
-  if (els.formTotal) els.formTotal.value = fmtEUR(state.qty * u);
+  if (els.formTotal) els.formTotal.value = total;
+  if (els.msFuel)  els.msFuel.textContent = name;
+  if (els.msQty)   els.msQty.textContent = state.qty + ' L';
+  if (els.msTotal) els.msTotal.textContent = total;
 }
 
 function renderRows() {
@@ -83,6 +92,28 @@ document.querySelectorAll('.fuel-type').forEach((btn) => {
     renderSummary();
   });
 });
+
+// Order modal — opens from any .order-trigger button, prefilled with the current selection.
+const orderModal = document.getElementById('orderModal');
+const modalClose = document.getElementById('modalClose');
+
+function openModal(e) {
+  if (e) e.preventDefault();
+  syncForm();            // prefill fuel / quantity / total from current selection
+  orderModal.classList.add('open');
+  orderModal.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('modal-open');
+}
+function closeModal() {
+  orderModal.classList.remove('open');
+  orderModal.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('modal-open');
+}
+
+document.querySelectorAll('.order-trigger').forEach((btn) => btn.addEventListener('click', openModal));
+modalClose?.addEventListener('click', closeModal);
+orderModal?.addEventListener('click', (e) => { if (e.target === orderModal) closeModal(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && orderModal.classList.contains('open')) closeModal(); });
 
 // Order form submission (Web3Forms — works on any static host).
 const orderForm = document.getElementById('orderForm');

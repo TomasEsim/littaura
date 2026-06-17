@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=9" />
+  <link rel="stylesheet" href="styles.css?v=10" />
 </head>
 <body>
   <!-- HEADER -->
@@ -25,9 +25,9 @@
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
           </a>
           <div class="dropdown">
-            <a href="#kainos" class="fuel-link" data-fuel="DK">Dyzelinas kuras</a>
-            <a href="#kainos" class="fuel-link" data-fuel="DKK">Dyzelinas kuras Šildymui</a>
-            <a href="#kainos" class="fuel-link" data-fuel="DKU">Dyzelinas kuras Ūkinikam</a>
+            <a href="#kainos" class="fuel-link" data-fuel="DK">Dyzelinas kuras (DK)</a>
+            <a href="#kainos" class="fuel-link" data-fuel="DKK">Dyzelino kuras Žiemos (DKK)</a>
+            <a href="#kainos" class="fuel-link" data-fuel="DKU">Dyzelino kuras vasaros (DKU)</a>
           </div>
         </div>
         <a href="#apie" class="nav-item">Apie mus</a>
@@ -100,15 +100,15 @@
         <h3 class="eyebrow">Kuro rūšys</h3>
         <button class="fuel-type is-active" data-fuel="DK">
           <span class="ft-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12"/><path d="M5 22V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v16"/><path d="M13 8h2a2 2 0 0 1 2 2v6a1.5 1.5 0 0 0 3 0V9l-2-2"/><path d="M5 11h8"/></svg></span>
-          <span class="ft-label"><strong>Dyzelinas kuras</strong></span>
+          <span class="ft-label"><strong>Dyzelinas kuras (DK)</strong></span>
         </button>
         <button class="fuel-type" data-fuel="DKK">
           <span class="ft-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12"/><path d="M5 22V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v16"/><path d="M13 8h2a2 2 0 0 1 2 2v6a1.5 1.5 0 0 0 3 0V9l-2-2"/><path d="M5 11h8"/></svg></span>
-          <span class="ft-label"><strong>Dyzelinas kuras<br />Šildymui</strong></span>
+          <span class="ft-label"><strong>Dyzelino kuras<br />Žiemos (DKK)</strong></span>
         </button>
         <button class="fuel-type" data-fuel="DKU">
           <span class="ft-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12"/><path d="M5 22V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v16"/><path d="M13 8h2a2 2 0 0 1 2 2v6a1.5 1.5 0 0 0 3 0V9l-2-2"/><path d="M5 11h8"/></svg></span>
-          <span class="ft-label"><strong>Dyzelinas kuras<br />Ūkinikam</strong></span>
+          <span class="ft-label"><strong>Dyzelino kuras<br />vasaros (DKU)</strong></span>
         </button>
       </aside>
 
@@ -116,7 +116,7 @@
       <div class="price-card">
         <div class="price-head">
           <div>
-            <h3 id="fuelTitle">Dyzelinas kuras</h3>
+            <h3 id="fuelTitle">Dyzelinas kuras (DK)</h3>
             <p class="price-sub">Kainos nurodytos su PVM</p>
           </div>
           <div class="price-tags">
@@ -140,7 +140,7 @@
         <h3 class="eyebrow">Jūsų pasirinkimas</h3>
         <div class="summary-fuel">
           <span class="ft-icon sm"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12"/><path d="M5 22V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v16"/><path d="M13 8h2a2 2 0 0 1 2 2v6a1.5 1.5 0 0 0 3 0V9l-2-2"/><path d="M5 11h8"/></svg></span>
-          <strong id="sumFuel">Dyzelinas kuras</strong>
+          <strong id="sumFuel">Dyzelinas kuras (DK)</strong>
         </div>
 
         <div class="summary-row">
@@ -237,7 +237,7 @@
       <p class="form-lead">Užpildykite formą — susisieksime su jumis ir pateiksime geriausią pasiūlymą.</p>
 
       <div class="modal-summary" id="modalSummary">
-        <div class="ms-row"><span>Kuras</span><strong id="msFuel">Dyzelinas kuras</strong></div>
+        <div class="ms-row"><span>Kuras</span><strong id="msFuel">Dyzelinas kuras (DK)</strong></div>
         <div class="ms-row"><span>Kiekis</span><strong id="msQty">3000 L</strong></div>
         <div class="ms-row ms-total"><span>Apytikslė suma</span><strong id="msTotal">5 820,00 €</strong></div>
       </div>
@@ -277,9 +277,9 @@
           <div class="field">
             <label for="f-fuel">Kuro rūšis</label>
             <select id="f-fuel" name="Kuro rūšis">
-              <option value="Dyzelinas kuras">Dyzelinas kuras</option>
-              <option value="Dyzelinas kuras Šildymui">Dyzelinas kuras Šildymui</option>
-              <option value="Dyzelinas kuras Ūkinikam">Dyzelinas kuras Ūkinikam</option>
+              <option value="Dyzelinas kuras (DK)">Dyzelinas kuras (DK)</option>
+              <option value="Dyzelino kuras Žiemos (DKK)">Dyzelino kuras Žiemos (DKK)</option>
+              <option value="Dyzelino kuras vasaros (DKU)">Dyzelino kuras vasaros (DKU)</option>
             </select>
           </div>
           <div class="field">
@@ -345,9 +345,9 @@
       </div>
       <div class="footer-col">
         <h5>Kuras</h5>
-        <a href="#kainos" class="fuel-link" data-fuel="DK">Dyzelinas kuras</a>
-        <a href="#kainos" class="fuel-link" data-fuel="DKK">Dyzelinas kuras Šildymui</a>
-        <a href="#kainos" class="fuel-link" data-fuel="DKU">Dyzelinas kuras Ūkinikam</a>
+        <a href="#kainos" class="fuel-link" data-fuel="DK">Dyzelinas (DK)</a>
+        <a href="#kainos" class="fuel-link" data-fuel="DKK">Dyzelinas kuras Žiemos (DKK)</a>
+        <a href="#kainos" class="fuel-link" data-fuel="DKU">Dyzelino kuras vasaros (DKU)</a>
       </div>
       <div class="footer-col">
         <h5>Informacija</h5>
@@ -375,6 +375,6 @@
     </div>
   </footer>
 
-  <script src="script.js?v=9"></script>
+  <script src="script.js?v=10"></script>
 </body>
 </html>

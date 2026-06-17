@@ -18,9 +18,9 @@ const POPULAR_QTY = 3000;
 // Kuro kiekis | Kaina 1L | Viso Suma. Nurodome 0-pagrįstus stulpelių indeksus
 // (A=0, B=1, C=2, D=3, ...). „Viso Suma" stulpelis ignoruojamas – sumą skaičiuojame patys.
 const SHEET_GROUPS = [
-  { code: 'DK',  name: 'Dyzelinas kuras',          qtyCol: 0, priceCol: 1 }, // A, B
-  { code: 'DKK', name: 'Dyzelinas kuras Šildymui', qtyCol: 3, priceCol: 4 }, // D, E
-  { code: 'DKU', name: 'Dyzelinas kuras Ūkinikam', qtyCol: 6, priceCol: 7 }, // G, H
+  { code: 'DK',  name: 'Dyzelinas kuras (DK)',         qtyCol: 0, priceCol: 1 }, // A, B
+  { code: 'DKK', name: 'Dyzelino kuras Žiemos (DKK)',  qtyCol: 3, priceCol: 4 }, // D, E
+  { code: 'DKU', name: 'Dyzelino kuras vasaros (DKU)', qtyCol: 6, priceCol: 7 }, // G, H
 ];
 
 const FUEL_ORDER = SHEET_GROUPS.map((g) => g.code);
@@ -34,9 +34,9 @@ const tiersForBase = (base) =>
     return { qty: q, price: Math.round((base - step) * 100) / 100, popular: q === POPULAR_QTY };
   });
 const FALLBACK = {
-  DK:  { name: 'Dyzelinas kuras',          tiers: tiersForBase(1.96) },
-  DKK: { name: 'Dyzelinas kuras Šildymui', tiers: tiersForBase(1.47) },
-  DKU: { name: 'Dyzelinas kuras Ūkinikam', tiers: tiersForBase(1.39) },
+  DK:  { name: 'Dyzelinas kuras (DK)',         tiers: tiersForBase(1.96) },
+  DKK: { name: 'Dyzelino kuras Žiemos (DKK)',  tiers: tiersForBase(1.47) },
+  DKU: { name: 'Dyzelino kuras vasaros (DKU)', tiers: tiersForBase(1.39) },
 };
 
 // Gyvas katalogas — pradeda nuo numatytojo, pakeičiamas lentelės duomenimis.

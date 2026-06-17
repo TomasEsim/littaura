@@ -83,13 +83,27 @@ function renderSummary() {
   syncForm();
 }
 
-// Fuel-type switching
+// Select a fuel type and reflect it in the sidebar + summary.
+function selectFuel(code) {
+  if (!FUELS[code]) return;
+  state.fuel = code;
+  document.querySelectorAll('.fuel-type').forEach((b) =>
+    b.classList.toggle('is-active', b.dataset.fuel === code));
+  renderSummary();
+}
+
+// Fuel-type switching (sidebar buttons)
 document.querySelectorAll('.fuel-type').forEach((btn) => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.fuel-type').forEach((b) => b.classList.remove('is-active'));
-    btn.classList.add('is-active');
-    state.fuel = btn.dataset.fuel;
-    renderSummary();
+  btn.addEventListener('click', () => selectFuel(btn.dataset.fuel));
+});
+
+// Fuel links in the header dropdown and footer: select that fuel, then scroll to the table.
+document.querySelectorAll('.fuel-link').forEach((link) => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    selectFuel(link.dataset.fuel);
+    nav?.classList.remove('open');
+    document.getElementById('kainos')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
 

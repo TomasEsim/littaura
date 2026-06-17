@@ -1,0 +1,81 @@
+// Fuel catalogue. Price per litre: 1.96 €/L under 3000 L, 1.95 €/L from 3000 L.
+const QUANTITIES = [1000, 1250, 1500, 1750, 2000, 2500, 3000, 4000, 5000];
+
+const FUELS = {
+  DK:  { name: 'Dyzelinas kuras (DK)' },
+  DKK: { name: 'Dyzelino kuras Žiemos (DKK)' },
+  DKU: { name: 'Dyzelino kuras vasaros (DKU)' },
+};
+
+const unitPrice = (qty) => (qty >= 3000 ? 1.95 : 1.96);
+
+// Lithuanian number formatting: space thousands, comma decimals.
+const fmtEUR = (n) =>
+  n.toLocaleString('lt-LT', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+
+const state = { fuel: 'DK', qty: 3000 };
+
+const els = {
+  rows:      document.getElementById('priceRows'),
+  fuelTitle: document.getElementById('fuelTitle'),
+  sumFuel:   document.getElementById('sumFuel'),
+  sumQty:    document.getElementById('sumQty'),
+  sumUnit:   document.getElementById('sumUnit'),
+  sumTotal:  document.getElementById('sumTotal'),
+};
+
+function renderRows() {
+  els.rows.innerHTML = QUANTITIES.map((qty) => {
+    const u = unitPrice(qty);
+    const total = qty * u;
+    const selected = qty === state.qty ? ' is-selected' : '';
+    const popular = qty === 3000
+      ? '<span class="badge-pop">Populiariausias</span>' : '';
+    return `
+      <div class="price-row${selected}" data-qty="${qty}">
+        <div class="qty-cell"><span class="radio"></span>${qty} L${popular}</div>
+        <div class="unit-cell">${u.toFixed(2)} € / L</div>
+        <div class="total-cell">${fmtEUR(total)}</div>
+        <div class="chev">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+      </div>`;
+  }).join('');
+
+  els.rows.querySelectorAll('.price-row').forEach((row) => {
+    row.addEventListener('click', () => {
+      state.qty = Number(row.dataset.qty);
+      renderRows();
+      renderSummary();
+    });
+  });
+}
+
+function renderSummary() {
+  const name = FUELS[state.fuel].name;
+  const u = unitPrice(state.qty);
+  els.fuelTitle.textContent = name;
+  els.sumFuel.textContent = name;
+  els.sumUnit.textContent = u.toFixed(2) + ' €';
+  els.sumTotal.textContent = fmtEUR(state.qty * u);
+  els.sumQty.innerHTML = `${state.qty} L <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>`;
+}
+
+// Fuel-type switching
+document.querySelectorAll('.fuel-type').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.fuel-type').forEach((b) => b.classList.remove('is-active'));
+    btn.classList.add('is-active');
+    state.fuel = btn.dataset.fuel;
+    renderSummary();
+  });
+});
+
+// Mobile nav
+const navToggle = document.getElementById('navToggle');
+const nav = document.getElementById('nav');
+navToggle?.addEventListener('click', () => nav.classList.toggle('open'));
+nav?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => nav.classList.remove('open')));
+
+renderRows();
+renderSummary();

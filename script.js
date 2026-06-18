@@ -127,6 +127,8 @@ function renderSummary() {
   els.sumUnit.textContent = fmtUnit(u) + ' €';
   els.sumTotal.textContent = fmtEUR(state.qty * u);
   els.sumQty.innerHTML = `${state.qty} L <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>`;
+  const buyNow = document.getElementById('buyNow');
+  if (buyNow) buyNow.href = `checkout.html?fuel=${state.fuel}&qty=${state.qty}`;
   syncForm();
 }
 

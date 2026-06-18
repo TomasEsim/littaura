@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apmokėjimas — Littaura</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=13" />
+</head>
+<body>
+  <!-- Top bar -->
+  <header class="co-bar">
+    <div class="container co-bar-inner">
+      <a href="index.html" class="brand" aria-label="Littaura">
+        <span class="brand-dot"></span>
+        <span class="brand-name">littaura</span>
+      </a>
+      <a href="index.html" class="co-back">← Grįžti į parduotuvę</a>
+    </div>
+  </header>
+
+  <!-- TEST banner -->
+  <div class="test-banner">
+    <div class="container">
+      ⚠️ <strong>TESTINIS puslapis.</strong> Tikras apmokėjimas nevykdomas — pinigai nenuskaitomi. Mokėjimo integracija bus pridėta vėliau.
+    </div>
+  </div>
+
+  <main class="container checkout">
+    <h1 class="co-title">Užsakymo apmokėjimas</h1>
+
+    <div class="checkout-grid">
+      <!-- LEFT: buyer + payment -->
+      <div class="co-main">
+        <form id="checkoutForm">
+          <section class="co-block">
+            <h2 class="co-h2">1. Pirkėjo duomenys</h2>
+            <div class="field-row">
+              <div class="field">
+                <label for="c-first">Vardas *</label>
+                <input id="c-first" type="text" required placeholder="Jonas" autocomplete="given-name" />
+              </div>
+              <div class="field">
+                <label for="c-last">Pavardė *</label>
+                <input id="c-last" type="text" required placeholder="Petraitis" autocomplete="family-name" />
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="c-company">Įmonė</label>
+                <input id="c-company" type="text" placeholder="Nebūtina" autocomplete="organization" />
+              </div>
+              <div class="field">
+                <label for="c-phone">Telefonas *</label>
+                <input id="c-phone" type="tel" required placeholder="+370 6XX XXXXX" autocomplete="tel" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="c-email">El. paštas *</label>
+              <input id="c-email" type="email" required placeholder="vardas@imone.lt" autocomplete="email" />
+            </div>
+          </section>
+
+          <section class="co-block">
+            <h2 class="co-h2">2. Pristatymo adresas</h2>
+            <div class="field">
+              <label for="c-street">Gatvė, namo nr. *</label>
+              <input id="c-street" type="text" required placeholder="Vilniaus g. 1" autocomplete="address-line1" />
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="c-city">Miestas *</label>
+                <input id="c-city" type="text" required placeholder="Kaunas" autocomplete="address-level2" />
+              </div>
+              <div class="field">
+                <label for="c-zip">Pašto kodas</label>
+                <input id="c-zip" type="text" placeholder="LT-44001" autocomplete="postal-code" />
+              </div>
+            </div>
+          </section>
+
+          <section class="co-block">
+            <h2 class="co-h2">3. Mokėjimo būdas</h2>
+            <div class="pay-methods" id="payMethods">
+              <label class="pay-method">
+                <input type="radio" name="pay" value="paysera" checked />
+                <span class="pm-body"><span class="pm-name">Paysera</span><span class="pm-sub">Bankai ir kortelės</span></span>
+              </label>
+              <label class="pay-method">
+                <input type="radio" name="pay" value="swedbank" />
+                <span class="pm-body"><span class="pm-name">Swedbank</span><span class="pm-sub">Bankas internetu</span></span>
+              </label>
+              <label class="pay-method">
+                <input type="radio" name="pay" value="seb" />
+                <span class="pm-body"><span class="pm-name">SEB</span><span class="pm-sub">Bankas internetu</span></span>
+              </label>
+              <label class="pay-method">
+                <input type="radio" name="pay" value="luminor" />
+                <span class="pm-body"><span class="pm-name">Luminor</span><span class="pm-sub">Bankas internetu</span></span>
+              </label>
+              <label class="pay-method">
+                <input type="radio" name="pay" value="revolut" />
+                <span class="pm-body"><span class="pm-name">Revolut</span><span class="pm-sub">Bankas internetu</span></span>
+              </label>
+              <label class="pay-method">
+                <input type="radio" name="pay" value="card" />
+                <span class="pm-body"><span class="pm-name">Mokėjimo kortelė</span><span class="pm-sub">Visa / Mastercard</span></span>
+              </label>
+            </div>
+          </section>
+
+          <label class="co-terms">
+            <input type="checkbox" id="c-terms" required />
+            <span>Sutinku su <a href="#">pirkimo taisyklėmis</a> ir privatumo politika.</span>
+          </label>
+        </form>
+      </div>
+
+      <!-- RIGHT: order summary -->
+      <aside class="co-summary">
+        <h2 class="co-h2">Jūsų užsakymas</h2>
+        <div class="co-line">
+          <span class="co-fuel" id="sumFuel">Dyzelinas kuras (DK)</span>
+          <span class="tag tag-soft">EN 590</span>
+        </div>
+        <div class="co-row"><span>Kiekis</span><strong id="sumQty">3000 L</strong></div>
+        <div class="co-row"><span>Kaina už 1 L</span><strong id="sumUnit">1,94 €</strong></div>
+        <div class="co-row co-muted"><span>PVM (21%)</span><strong id="sumVat">—</strong></div>
+        <div class="co-total"><span>Viso (su PVM)</span><strong id="sumTotal">5 820,00 €</strong></div>
+
+        <button type="submit" form="checkoutForm" class="btn btn-primary btn-block" id="payBtn">
+          Apmokėti <span id="payAmount">5 820,00 €</span>
+        </button>
+        <p class="secure-note">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Saugus apmokėjimas (testinis režimas)
+        </p>
+        <p class="co-status" id="payStatus" role="status" aria-live="polite"></p>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Success overlay -->
+  <div class="pay-success" id="paySuccess" aria-hidden="true">
+    <div class="ps-card">
+      <span class="ps-check">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>
+      </span>
+      <h2>Apmokėjimas sėkmingas!</h2>
+      <p class="ps-test">(TESTINIS režimas — pinigai nenuskaityti)</p>
+      <div class="ps-details">
+        <div class="co-row"><span>Užsakymo Nr.</span><strong id="psOrderNo">—</strong></div>
+        <div class="co-row"><span>Kuras</span><strong id="psFuel">—</strong></div>
+        <div class="co-row"><span>Kiekis</span><strong id="psQty">—</strong></div>
+        <div class="co-total"><span>Sumokėta</span><strong id="psTotal">—</strong></div>
+      </div>
+      <a href="index.html" class="btn btn-primary btn-block">Grįžti į pradžią</a>
+    </div>
+  </div>
+
+  <script src="checkout.js?v=13"></script>
+</body>
+</html>

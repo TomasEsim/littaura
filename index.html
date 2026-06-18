@@ -3,14 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Tag Manager — įrašykite konteinerio ID į GTM_ID (pvz. 'GTM-ABCD123').
+       Kol tuščia, GTM neįkeliamas, bet dataLayer įvykiai vis tiek kaupiami. -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    var GTM_ID = ''; // <- įklijuokite savo GTM konteinerio ID čia
+    if (GTM_ID) {
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || []; w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        var f = d.getElementsByTagName(s)[0], j = d.createElement(s),
+            dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true; j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', GTM_ID);
+    }
+  </script>
+  <!-- End Google Tag Manager -->
+
   <title>Littaura — Didmeninė kuro prekyba visoje Lietuvoje</title>
   <meta name="description" content="Tiekiame kokybišką kurą įmonėms, ūkiams, statyboms ir kitoms veikloms visoje Lietuvoje. Greitas pristatymas, konkurencingos kainos." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=11" />
+  <link rel="stylesheet" href="styles.css?v=12" />
 </head>
 <body>
+  <!-- Google Tag Manager (noscript) — kai turėsite GTM ID, pakeiskite GTM-XXXXXXX žemiau ir pašalinkite šį komentarą.
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  -->
   <!-- HEADER -->
   <header class="site-header">
     <div class="container header-inner">
@@ -253,19 +275,30 @@
 
         <div class="field-row">
           <div class="field">
-            <label for="f-name">Vardas / Įmonė *</label>
-            <input id="f-name" name="Vardas / Įmonė" type="text" required placeholder="Jūsų vardas arba įmonė" />
+            <label for="f-first">Vardas *</label>
+            <input id="f-first" name="Vardas" type="text" required placeholder="Jonas" autocomplete="given-name" />
+          </div>
+          <div class="field">
+            <label for="f-last">Pavardė *</label>
+            <input id="f-last" name="Pavardė" type="text" required placeholder="Petraitis" autocomplete="family-name" />
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="f-company">Įmonė</label>
+            <input id="f-company" name="Įmonė" type="text" placeholder="Jūsų įmonė (nebūtina)" autocomplete="organization" />
           </div>
           <div class="field">
             <label for="f-phone">Telefonas *</label>
-            <input id="f-phone" name="Telefonas" type="tel" required placeholder="+370 6XX XXXXX" />
+            <input id="f-phone" name="Telefonas" type="tel" required placeholder="+370 6XX XXXXX" autocomplete="tel" />
           </div>
         </div>
 
         <div class="field-row">
           <div class="field">
             <label for="f-email">El. paštas *</label>
-            <input id="f-email" name="El. paštas" type="email" required placeholder="vardas@imone.lt" />
+            <input id="f-email" name="El. paštas" type="email" required placeholder="vardas@imone.lt" autocomplete="email" />
           </div>
           <div class="field">
             <label for="f-city">Pristatymo miestas / adresas</label>
@@ -375,6 +408,6 @@
     </div>
   </footer>
 
-  <script src="script.js?v=11"></script>
+  <script src="script.js?v=12"></script>
 </body>
 </html>

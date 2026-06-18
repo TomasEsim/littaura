@@ -241,6 +241,21 @@ orderForm?.addEventListener('submit', async (e) => {
     });
     const data = await res.json();
     if (res.ok && data.success) {
+      // Push a lead event to the dataLayer (for GTM / Google Ads) — read values BEFORE reset.
+      const val = (id) => (document.getElementById(id)?.value || '').trim();
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'generate_lead',
+        user_data: {
+          email: val('f-email').toLowerCase(),
+          phone: val('f-phone'),
+          address: {
+            first_name: val('f-first'),
+            last_name: val('f-last'),
+          },
+        },
+      });
+
       orderForm.reset();
       syncForm(); // restore fuel/qty defaults after reset
       setStatus('Ačiū! Jūsų užsakymas gautas — netrukus su jumis susisieksime.', 'ok');

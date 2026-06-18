@@ -174,11 +174,25 @@ form.addEventListener('submit', (e) => {
   setTimeout(() => {
     const orderNo = 'LT-' + Date.now().toString().slice(-8);
 
-    // Ecommerce „purchase" įvykis (GTM / Google Ads) — paruošta ateičiai.
+    // Ecommerce „purchase" įvykis (GTM / Google Ads) su pirkėjo duomenimis
+    // (Enhanced Conversions) — taip pat kaip užklausos formoje.
+    const v = (id) => (document.getElementById(id)?.value || '').trim();
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
       event: 'purchase',
       payment_method: method,
+      user_data: {
+        email: v('c-email').toLowerCase(),
+        phone: v('c-phone'),
+        address: {
+          first_name: v('c-first'),
+          last_name: v('c-last'),
+          street: v('c-street'),
+          city: v('c-city'),
+          postal_code: v('c-zip'),
+          country: 'LT',
+        },
+      },
       ecommerce: {
         transaction_id: orderNo,
         currency: 'EUR',

@@ -437,6 +437,11 @@ body.modal-open { overflow: hidden; }
 .co-summary { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow-sm); position: sticky; top: 24px; }
 .co-line { display: flex; align-items: center; justify-content: space-between; padding-bottom: 16px; border-bottom: 1px solid var(--line); margin-bottom: 4px; }
 .co-fuel { font-size: 14.5px; font-weight: 700; }
+.co-edit { display: grid; gap: 12px; padding: 4px 0 16px; margin-bottom: 6px; border-bottom: 1px solid var(--line); }
+.co-field { display: flex; flex-direction: column; gap: 6px; }
+.co-field span { font-size: 12.5px; font-weight: 600; color: #404a5e; }
+.co-field select { font-family: inherit; font-size: 14.5px; color: var(--text); padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg-soft); cursor: pointer; transition: border-color .15s, background .15s, box-shadow .15s; }
+.co-field select:focus { outline: none; border-color: var(--indigo); background: #fff; box-shadow: 0 0 0 3px rgba(99, 102, 241, .12); }
 .co-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; font-size: 14px; }
 .co-row span { color: var(--muted); }
 .co-muted strong { font-weight: 500; color: var(--muted); }

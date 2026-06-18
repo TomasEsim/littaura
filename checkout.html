@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=13" />
+  <link rel="stylesheet" href="styles.css?v=14" />
 </head>
 <body>
   <!-- Top bar -->
@@ -122,14 +122,21 @@
       <!-- RIGHT: order summary -->
       <aside class="co-summary">
         <h2 class="co-h2">Jūsų užsakymas</h2>
-        <div class="co-line">
-          <span class="co-fuel" id="sumFuel">Dyzelinas kuras (DK)</span>
-          <span class="tag tag-soft">EN 590</span>
+
+        <div class="co-edit">
+          <label class="co-field">
+            <span>Kuro tipas</span>
+            <select id="selFuel"></select>
+          </label>
+          <label class="co-field">
+            <span>Kiekis</span>
+            <select id="selQty"></select>
+          </label>
         </div>
-        <div class="co-row"><span>Kiekis</span><strong id="sumQty">3000 L</strong></div>
-        <div class="co-row"><span>Kaina už 1 L</span><strong id="sumUnit">1,94 €</strong></div>
+
+        <div class="co-row"><span>Kaina už 1 L</span><strong id="sumUnit">—</strong></div>
         <div class="co-row co-muted"><span>PVM (21%)</span><strong id="sumVat">—</strong></div>
-        <div class="co-total"><span>Viso (su PVM)</span><strong id="sumTotal">5 820,00 €</strong></div>
+        <div class="co-total"><span>Viso (su PVM)</span><strong id="sumTotal">—</strong></div>
 
         <button type="submit" form="checkoutForm" class="btn btn-primary btn-block" id="payBtn">
           Apmokėti <span id="payAmount">5 820,00 €</span>
@@ -161,6 +168,6 @@
     </div>
   </div>
 
-  <script src="checkout.js?v=13"></script>
+  <script src="checkout.js?v=14"></script>
 </body>
 </html>

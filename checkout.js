@@ -15,6 +15,7 @@ const SHEET_GROUPS = [
   { code: 'DKK', name: 'Dyzelino kuras Žiemos (DKK)',  qtyCol: 3, priceCol: 4 },
   { code: 'DKU', name: 'Dyzelino kuras vasaros (DKU)', qtyCol: 6, priceCol: 7 },
 ];
+const FUEL_ORDER = SHEET_GROUPS.map((g) => g.code);
 
 const FALLBACK_QTYS = [500, 1000, 1250, 1500, 1750, 2000, 2500, 3000, 4000, 5000];
 const tiersForBase = (base) =>
@@ -100,19 +101,46 @@ async function loadPrices() {
   }
 }
 
-// --- Render summary ---
+// --- Render summary + editable basket ---
 const el = (id) => document.getElementById(id);
+
+// If the chosen quantity isn't offered for the current fuel, snap to a sensible one.
+function ensureValidQty() {
+  const qs = curFuel().tiers.map((t) => t.qty);
+  if (qs.length && !qs.includes(order.qty)) {
+    order.qty = qs.includes(POPULAR_QTY) ? POPULAR_QTY : (qs[Math.floor(qs.length / 2)] ?? qs[0]);
+  }
+}
+
+function buildFuelSelect() {
+  const s = el('selFuel');
+  s.innerHTML = FUEL_ORDER.map((c) => `<option value="${c}">${(FUELS[c] || FALLBACK[c]).name}</option>`).join('');
+  s.value = order.fuel;
+}
+function buildQtySelect() {
+  const s = el('selQty');
+  s.innerHTML = curFuel().tiers
+    .map((t) => `<option value="${t.qty}">${t.qty.toLocaleString('lt-LT')} L</option>`)
+    .join('');
+  s.value = String(order.qty);
+}
+
 function render() {
+  ensureValidQty();
+  buildFuelSelect();
+  buildQtySelect();
   const unit = priceFor(order.qty);
   const total = order.qty * unit;
   const vat = total - total / (1 + VAT_RATE); // PVM dalis sumoje
-  el('sumFuel').textContent = curFuel().name;
-  el('sumQty').textContent = order.qty + ' L';
   el('sumUnit').textContent = fmtUnit(unit) + ' €';
   el('sumVat').textContent = fmtEUR(vat);
   el('sumTotal').textContent = fmtEUR(total);
   el('payAmount').textContent = fmtEUR(total);
 }
+
+// Basket edits
+el('selFuel').addEventListener('change', (e) => { order.fuel = e.target.value; ensureValidQty(); render(); });
+el('selQty').addEventListener('change', (e) => { order.qty = parseInt(e.target.value, 10); render(); });
 
 // --- Payment method highlight ---
 document.querySelectorAll('.pay-method input').forEach((r) => {
